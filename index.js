@@ -4,7 +4,7 @@ var app = require('connect')();
 var http = require('http');
 var swaggerTools = require('swagger-tools');
 
-var serverPort = 8081;
+var serverPort = 80;
 
 // swaggerRouter configuration
 var options = {
