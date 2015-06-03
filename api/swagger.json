@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
         "title": "Conversation API",
-        "description": "test",
+        "description": "conversation entity service",
         "version": "1.0.0"
     },
     "produces": [
@@ -19,10 +19,8 @@
                 }
             },
             "get": {
+                "summary": "gets a list of conversations. Optionally filtered by tag",
                 "x-swagger-router-controller": "Default",
-                "tags": [
-                    "Default"
-                ],
                 "operationId": "conversationsGet",
                 "parameters": [
                     {
@@ -44,6 +42,55 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "summary": "Adds a new conversation to the system",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Conversation object that needs to be added to the store",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Conversation"
+                        }
+                    }
+                ],
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                },
+                "security": [
+                    {
+                        "conversations_auth": [
+                            "read_conversations",
+                            "write_conversations"
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "api_key": {
+            "type": "apiKey",
+            "name": "api_key",
+            "in": "header"
+        },
+        "conversations_auth": {
+            "type": "oauth2",
+            "authorizationUrl": "http://services.antwerpen.be/api/",
+            "flow": "implicit",
+            "scopes": {
+                "write_conversations": "modify conversations in your account",
+                "read_conversations": "read your conversations"
             }
         }
     },
